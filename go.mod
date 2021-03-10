@@ -1,4 +1,4 @@
-module baptisttaliban.com/bible
+module github.com/baptisttaliban/bible
 
 go 1.15
 
