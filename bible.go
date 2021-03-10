@@ -137,12 +137,6 @@ func (self Bible) GetNextScripture(book Book, chapter Chapter, verse Verse) (Boo
 	if nextVerse < verse {
 		// next chapter
 		nextChapter := self.Books.GetNextChapter(book, chapter)
-		if nextChapter == -1 {
-			// chapter not found
-			// codecov: shouldn't be possible, was validated in GetNextVerse
-			return "", -1, -1, ""
-		}
-
 		if nextChapter < chapter {
 			// next book
 			nextBook := self.BooksIndex.GetNextBook(book)
@@ -175,11 +169,6 @@ func (self Bible) GetPreviousScripture(book Book, chapter Chapter, verse Verse) 
 		// previous chapter
 
 		previousChapter := self.Books.GetPreviousChapter(book, chapter)
-		if previousChapter == -1 {
-			// chapter not found
-			// codecov: shouldn't be possible, was validated in GetPreviousVerse
-			return "", -1, -1, ""
-		}
 
 		if previousChapter > chapter {
 			// previous book
