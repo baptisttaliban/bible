@@ -10,6 +10,75 @@ https://BaptistTaliban.com/Ostracon
 Not of works, lest any man should boast." Ephesians 2:8-9
 */
 
+const (
+	Genesis             = `Genesis`
+	Exodus              = `Exodus`
+	Leviticus           = `Leviticus`
+	Numbers             = `Numbers`
+	Deuteronomy         = `Deuteronomy`
+	Joshua              = `Joshua`
+	Judges              = `Judges`
+	Ruth                = `Ruth`
+	FirstSamuel         = `1 Samuel`
+	SecondSamuel        = `2 Samuel`
+	FirstKings          = `1 Kings`
+	SecondKings         = `2 Kings`
+	FirstChronicles     = `1 Chronicles`
+	SecondChronicles    = `2 Chronicles`
+	Ezra                = `Ezra`
+	Nehemiah            = `Nehemiah`
+	Esther              = `Esther`
+	Job                 = `Job`
+	Psalms              = `Psalms`
+	Proverbs            = `Proverbs`
+	Ecclesiastes        = `Ecclesiastes`
+	SongOfSolomon       = `Song of Solomon`
+	Isaiah              = `Isaiah`
+	Jeremiah            = `Jeremiah`
+	Lamentations        = `Lamentations`
+	Ezekiel             = `Ezekiel`
+	Daniel              = `Daniel`
+	Hosea               = `Hosea`
+	Joel                = `Joel`
+	Amos                = `Amos`
+	Obadiah             = `Obadiah`
+	Jonah               = `Jonah`
+	Micah               = `Micah`
+	Nahum               = `Nahum`
+	Habakkuk            = `Habakkuk`
+	Zephaniah           = `Zephaniah`
+	Haggai              = `Haggai`
+	Zechariah           = `Zechariah`
+	Malachi             = `Malachi`
+	Matthew             = `Matthew`
+	Mark                = `Mark`
+	Luke                = `Luke`
+	John                = `John`
+	Acts                = `Acts`
+	Romans              = `Romans`
+	FirstCorinthians    = `1 Corinthians`
+	SecondCorinthians   = `2 Corinthians`
+	Galatians           = `Galatians`
+	Ephesians           = `Ephesians`
+	Philippians         = `Philippians`
+	Colossians          = `Colossians`
+	FirstThessalonians  = `1 Thessalonians`
+	SecondThessalonians = `2 Thessalonians`
+	FirstTimothy        = `1 Timothy`
+	SecondTimothy       = `2 Timothy`
+	Titus               = `Titus`
+	Philemon            = `Philemon`
+	Hebrews             = `Hebrews`
+	James               = `James`
+	FirstPeter          = `1 Peter`
+	SecondPeter         = `2 Peter`
+	FirstJohn           = `1 John`
+	SecondJohn          = `2 John`
+	ThirdJohn           = `3 John`
+	Jude                = `Jude`
+	Revelation          = `Revelation`
+)
+
 type (
 	Bible struct {
 		Books      Books
@@ -25,6 +94,10 @@ type (
 	Verses       map[Verse]Scripture
 	Verse        int
 )
+
+func GetScripture(book Book, chapter Chapter, verse Verse) Scripture {
+	return KJV.GetScripture(book, chapter, verse)
+}
 
 func (self Bible) GetScripture(book Book, chapter Chapter, verse Verse) Scripture {
 	if _, ok := self.Books[book]; !ok {
@@ -43,6 +116,10 @@ func (self Bible) GetScripture(book Book, chapter Chapter, verse Verse) Scriptur
 	}
 
 	return self.Books[book][chapter][verse]
+}
+
+func GetNextScripture(book Book, chapter Chapter, verse Verse) (Book, Chapter, Verse, Scripture) {
+	return KJV.GetNextScripture(book, chapter, verse)
 }
 
 func (self Bible) GetNextScripture(book Book, chapter Chapter, verse Verse) (Book, Chapter, Verse, Scripture) {
@@ -76,6 +153,10 @@ func (self Bible) GetNextScripture(book Book, chapter Chapter, verse Verse) (Boo
 	}
 
 	return book, chapter, nextVerse, self.Books[book][chapter][nextVerse]
+}
+
+func GetPreviousScripture(book Book, chapter Chapter, verse Verse) (Book, Chapter, Verse, Scripture) {
+	return KJV.GetPreviousScripture(book, chapter, verse)
 }
 
 func (self Bible) GetPreviousScripture(book Book, chapter Chapter, verse Verse) (Book, Chapter, Verse, Scripture) {
@@ -118,6 +199,10 @@ func (self Bible) GetPreviousScripture(book Book, chapter Chapter, verse Verse) 
 	return book, chapter, previousVerse, self.Books[book][chapter][previousVerse]
 }
 
+func GetNextChapter(book Book, chapter Chapter) Chapter {
+	return KJV.Books.GetNextChapter(book, chapter)
+}
+
 func (self Books) GetNextChapter(book Book, chapter Chapter) Chapter {
 	if _, ok := self[book]; !ok {
 		// book not found
@@ -138,6 +223,10 @@ func (self Books) GetNextChapter(book Book, chapter Chapter) Chapter {
 	return chapter + 1
 }
 
+func GetPreviousChapter(book Book, chapter Chapter) Chapter {
+	return KJV.Books.GetPreviousChapter(book, chapter)
+}
+
 func (self Books) GetPreviousChapter(book Book, chapter Chapter) Chapter {
 	if _, ok := self[book]; !ok {
 		// book not found
@@ -156,6 +245,10 @@ func (self Books) GetPreviousChapter(book Book, chapter Chapter) Chapter {
 
 	// previous chapter
 	return chapter - 1
+}
+
+func GetNextVerse(book Book, chapter Chapter, verse Verse) Verse {
+	return KJV.Books.GetNextVerse(book, chapter, verse)
 }
 
 func (self Books) GetNextVerse(book Book, chapter Chapter, verse Verse) Verse {
@@ -183,6 +276,10 @@ func (self Books) GetNextVerse(book Book, chapter Chapter, verse Verse) Verse {
 	return verse + 1
 }
 
+func GetPreviousVerse(book Book, chapter Chapter, verse Verse) Verse {
+	return KJV.Books.GetPreviousVerse(book, chapter, verse)
+}
+
 func (self Books) GetPreviousVerse(book Book, chapter Chapter, verse Verse) Verse {
 	if _, ok := self[book]; !ok {
 		// book not found
@@ -208,6 +305,10 @@ func (self Books) GetPreviousVerse(book Book, chapter Chapter, verse Verse) Vers
 	return verse - 1
 }
 
+func GetBookPosition(book Book) BookPosition {
+	return KJV.BooksIndex.GetBookPosition(book)
+}
+
 func (self BooksIndex) GetBookPosition(book Book) BookPosition {
 	for i, b := range self {
 		if b == book {
@@ -220,6 +321,10 @@ func (self BooksIndex) GetBookPosition(book Book) BookPosition {
 	return -1
 }
 
+func GetNextBook(book Book) Book {
+	return KJV.BooksIndex.GetNextBook(book)
+}
+
 func (self BooksIndex) GetNextBook(book Book) Book {
 	i := self.GetNextBookPosition(book)
 	if i == -1 {
@@ -228,6 +333,10 @@ func (self BooksIndex) GetNextBook(book Book) Book {
 	}
 
 	return self[i]
+}
+
+func GetNextBookPosition(book Book) BookPosition {
+	return KJV.BooksIndex.GetNextBookPosition(book)
 }
 
 func (self BooksIndex) GetNextBookPosition(book Book) BookPosition {
@@ -246,6 +355,10 @@ func (self BooksIndex) GetNextBookPosition(book Book) BookPosition {
 	return i + 1
 }
 
+func GetPreviousBook(book Book) Book {
+	return KJV.BooksIndex.GetPreviousBook(book)
+}
+
 func (self BooksIndex) GetPreviousBook(book Book) Book {
 	i := self.GetPreviousBookPosition(book)
 	if i == -1 {
@@ -254,6 +367,10 @@ func (self BooksIndex) GetPreviousBook(book Book) Book {
 	}
 
 	return self[i]
+}
+
+func GetPreviousBookPosition(book Book) BookPosition {
+	return KJV.BooksIndex.GetPreviousBookPosition(book)
 }
 
 func (self BooksIndex) GetPreviousBookPosition(book Book) BookPosition {
